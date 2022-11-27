@@ -1,4 +1,6 @@
 # [Phasmophobia](https://kineticgames.co.uk/)
+[![Discord](https://img.shields.io/discord/785233414374686720?label=Discord&logo=discord)](https://discord.gg/WMeCsQhakH)
+[![License](https://img.shields.io/github/license/Cryotheus/pyrition_2)](https://github.com/Cryotheus/pyrition_2/blob/main/LICENSE)  
 As a Gamemode for [Garry's Mod](https://gmod.facepunch.com/).  
 From the [Phasmophobia](https://store.steampowered.com/app/739630/Phasmophobia/) store page:
 > Phasmophobia is a 4 player online co-op psychological horror where you and your team members of paranormal investigators will enter haunted locations filled with paranormal activity and gather as much evidence of the paranormal as you can. You will use your ghost hunting equipment to search for and record evidence of whatever ghost is haunting the location to sell onto a ghost removal team.
