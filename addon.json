@@ -1,0 +1,29 @@
+{
+	"author": "Cryotheum",
+	"title": "Pyrition",
+	"type": "tool",
+	
+	"tags": [
+		"roleplay",
+		"scenic"
+	],
+	
+	"ignore": [
+		".git*",
+		"*.bat",
+		"*.fgd",
+		"*.gma",
+		"*.md",
+		"*.pdn",
+		"*.txt",
+		"*.yml",
+		"*.zip",
+		"LICENSE",
+		"README.md",
+		"wiki/*",
+		"gamemodes/phasmophobia/content/maps/*",
+		"gamemodes/phasmophobia/content/materials/*",
+		"gamemodes/phasmophobia/content/models/*",
+		"gamemodes/phasmophobia/content/sound/*"
+	]
+}

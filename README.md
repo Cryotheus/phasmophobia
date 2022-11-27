@@ -11,7 +11,7 @@ If I ever finish this Gamemode, I will post it on the workshop so you won't have
 1. Download this repository [here](https://github.com/Cryotheus/phasmophobia/archive/refs/heads/main.zip).
 2. Extract the ZIP archive.
 3. Rename the folder which contains the `phasmophobia.txt` file to `phasmophobia`.
-4. Place the folder in your `GarrysMod/garrysmod/gamemodes` directory
+4. Place the folder in your `GarrysMod/garrysmod/addons` directory
 The newly placed `phasmophobia` folder should be next to folders named `base`, `sandbox`, and `terrortown`.
 
 ## For Servers
