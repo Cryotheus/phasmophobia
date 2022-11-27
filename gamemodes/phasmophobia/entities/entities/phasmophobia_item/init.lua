@@ -72,6 +72,8 @@ function ENT:Initialize()
 	if mass then physics:SetMass(mass) end
 	if self.SpawnFrozen then physics:EnableMotion(false)
 	else physics:Wake() end
+	
+	self:FreezeOnSleep()
 end
 
 function ENT:Use(ply) hook.Run("PlayerItemPickup", ply, self) end

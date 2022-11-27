@@ -67,7 +67,15 @@ end
 
 function ENT:StartTouch(entity) end
 function ENT:UpdateTransmitState() return TRANSMIT_PVS end
-function ENT:Use(ply) ply:PickupObject(self) end
+
+function ENT:Use(ply)
+	local physics = self:GetPhysicsObject()
+	
+	physics:EnableMotion(true)
+	physics:Wake()
+	
+	ply:PickupObject(hook.Run("PropGetPickupInterrupt"))
+end
 
 --unused
 function ENT:OnRemove() end

@@ -144,6 +144,8 @@ function ENT:Throw(ply, item_slot)
 		
 		physics:Wake()
 		physics:SetVelocity(ply:GetAimVector() * 400)
+		
+		self:FreezeOnSleep()
 	end
 end
 

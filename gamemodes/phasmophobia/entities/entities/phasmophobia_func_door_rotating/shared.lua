@@ -5,3 +5,4 @@ ENT.PrintName = "Rotating Door"
 ENT.Purpose = "Do door things."
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.Type = "anim"
+
