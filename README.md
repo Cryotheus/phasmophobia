@@ -14,10 +14,13 @@ The newly placed `phasmophobia` folder should be next to folders named `base`, `
 
 ## For Servers
 Perform the **For Players** steps using your server's directory instead.
-1. Make sure your server's launch Gamemode is set to `phasmophobia`
+1. Install a *Garry's Mod Dedicated Server* on the *x86-64* branch.
+	* Use the `-beta x86-64` parameter in your `app_update` command eg. `app_update 4020 -beta x86-64 validate`
+	* For Windows servers, if you want color in your console try using [`gmsv_concolormsg`](https://github.com/WilliamVenner/gmsv_concolormsg). For Linux, color is available through normal means using Lua scripts. I don't use Linux so find some other programmer to bother for a solution.
+2. Make sure your server's launch Gamemode is set to `phasmophobia`
 	* As a launch parameter: `+gamemode phasmophobia`
 	* As a command for `autoexec.cfg`: `gamemode phasmophobia`
-2. Make sure your server's launch map is set to `phas_lobby`.
+3. Make sure your server's launch map is set to `phas_lobby`.
 	* As a launch parameter: `+map phas_lobby`
 	* As a command for `autoexec.cfg`: `map phas_lobby` (side note, make sure you have the map command after the gamemode command)
 
