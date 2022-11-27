@@ -16,6 +16,7 @@
 local config = {
 	{
 		loader = "download",
+		global = "shared",
 		duplex = "shared",
 	},
 }

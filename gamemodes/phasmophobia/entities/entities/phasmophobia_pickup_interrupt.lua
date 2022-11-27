@@ -24,9 +24,9 @@ end
 
 function ENT:UpdateTransmitState() return TRANSMIT_ALWAYS end
 
-
 function ENT:AddPlayer(ply)
 	duplex_insert(self.Players, ply)
+	ply:PickupObject(self)
 end
 
 function ENT:Think()
