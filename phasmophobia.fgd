@@ -1,0 +1,105 @@
+//for the phasmophobia gamemode
+//created by Cryotheum#4096
+
+//change this to your garrysmod.fgd location
+//seems that just specifying garrysmod.fgd caused issues
+@include "C:/Program Files (x86)/Steam/steamapps/common/GarrysMod/bin/garrysmod.fgd"
+
+@SolidClass base(Targetname, Origin, Shadow) = phasmophobia_func_door_rotating : 
+	"Rotating door that the players and ghosts can interact with. Will always rotate along the Z axis."
+[
+	distance(integer) : "Open Angle" : 90 : "The degrees about the Hinge Normal the door can rotate. Use a negative value to reverse the direction."
+	handlemodel(string) : "Door Handle Model"
+	massScale(float) : "Mass Scale" : "1" : "A scale multiplier for the object's mass."
+	_minlight(string) : "Minimum Light Level" : : "The minimum level of ambient light that hits this brush."
+	
+	spawnflags(flags) =
+	[
+		1 : "Disable player interaction" : 0
+		2 : "Disable ghost interaction" : 0
+		4 : "Generate door handle" : 0
+		8 : "Entrance door (door is locked shut during ghost hunt, and always starts closed)" : 0
+	]
+]
+
+@PointClass base(Targetname, Angles, Studiomodel) studioprop() = phasmophobia_item :
+	"Similar to prop_physics, but the players and ghost can interact with it."
+[
+	mass(float) : "Mass" : : "The items mass in kg. Leave this empty to let the model decide the mass."
+	//model(studio) : "World Model"
+	primary(integer) : "Primary Uses" : 0 : "How many times the item can have its primary used. 0 to disable, -1 for infinite."
+	primary_delay(float) : "Primary Use Delay" : 1 : "Delay in seconds before the primary use can be activated again."
+	secondary(integer) : "Secondary Uses" : 0 : "How many times the item can have its secondary used. 0 to disable, -1 for infinite."
+	secondary_delay(float) : "Secondary Use Delay" : 1 : "Delay in seconds before the secondary use can be activated again."
+	
+	holdtype(choices) : "Hold Type" : 18 =
+	[
+		1: "AR2"
+		2: "Camera"
+		3: "Crossbow"
+		4: "Duel Pistols"
+		5: "Fists"
+		6: "Grenade"
+		7: "Knife"
+		8: "Magic"
+		9: "Melee"
+		10: "Sword"
+		11: "Normal (Empty hands)"
+		12: "Passive (SMG at the low ready)"
+		13: "Gravity Gun"
+		14: "Pistol"
+		15: "Revolver (Two handed pistol)"
+		16: "RPG"
+		17: "Shotgun"
+		18: "Slam"
+		19: "SMG"
+	]
+	
+	spawnflags(flags) =
+	[
+		1 : "Intangible to ghost (ghost will not fling or use this item)" : 0
+		2 : "Intangible to dead players (dead players cannot pickup this item)" : 0
+		4 : "Spawns frozen" : 0
+		8 : "Ghost cannot unfreeze" : 0
+		16 : "Generate rack" : 0
+	]
+	
+	input Skin(integer) : "Changes the model skin to the specified number."
+	
+	output OnPrimaryUse(void) : "Fired when the item's primary is used."
+	output OnSecondaryUse(void) : "Fired when the item's secondary is used."
+]
+
+@PointClass base(Targetname, Parentname, Angles) iconsprite("editor/light.vmt") sphere(distance) lightcone() size(-4 -4 -4, 4 4 4) = phasmophobia_light :
+	"An dynamic lightsource which comes with a glow sprite and radial lighting. Only 32 of these can be visible at a time."
+[
+	area(target_destination) : "Associated Area" : : "The related phasmophobia_trigger_area trigger. Leave blank if you want this to be automatically determined."
+	_cone(integer) : "Outer (fading) angle" : 0 : "Angle at which the light entirely dissipates. Set to 0 for radial light."
+	distance(float) : "Maximum distance" : 120 : "This is the distance that light is allowed to cast, in inches."
+	glow_scale(float) : "Glow size" : "0.25" : "Size of the glow sprite"
+	_inner_cone(integer) : "Inner (bright) angle" : 0 : "Angle at which the light is at its full intensity."
+	_light(color255) : "Light color" : "255 255 255 200" : "Color of the light, alpha (the fourth number) is brightness."
+	lightswitch(target_destination) : "Lightswitch" : : "The lightswitch used to control the light."
+	
+	spawnflags(flags) =
+	[
+		1 : "Intangible to ghost (ghost will not cause this light to flicker, toggle, or break)" : 0
+		2 : "Unbreakable (ghost cannot break, but still can cause flickers)" : 0
+		4 : "Maintains player sanity" : 4
+		8 : "Requires power" : 8
+	]
+]
+
+@SolidClass base(Trigger, Targetname) = phasmophobia_trigger_area :
+	"A trigger volume that designates rooms and areas."
+[
+	temperature(float) : "Temperature" : 23 : "The tempertaure (in Celsius) when the power is on."
+	temperaturebias(float) : "Temperature Bias" : 0 : "The tempertaure (in Celsius) to add to the room when the power is off. This value is influenced by Weather."
+	
+	spawnflags(flags) =
+	[
+		1 : "Suitable ghost room" : 1
+		2 : "Use creaky footsteps" : 0
+		4 : "Outdoors" : 0
+	]
+]
