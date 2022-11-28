@@ -15,6 +15,13 @@ end
 
 --color table
 GM.GlobalColor = {
+	Message = {
+		Brand = Color(46, 55, 72),
+		Error = Color(255, 96, 72),
+		Generic = Color(240, 240, 240),
+		Success = Color(72, 255, 96),
+	},
+	
 	Players = {
 		--classic colors from the original game
 		Color(255, 119, 19),

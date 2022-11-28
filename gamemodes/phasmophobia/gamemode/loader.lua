@@ -15,16 +15,25 @@
 
 local config = {
 	{
-		global = "shared",
 		loader = "download",
+		
+		global = {
+			color = "shared",
+			shared = "shared"
+		},
 	},
 	
 	{shared = "shared"},
 	
 	{
-		entity = {meta = "shared"},
-		prop = {server = "server"},
 		render = {client = "client"},
+		
+		entity = {
+			meta = {
+				server = "server",
+				shared = "shared",
+			},
+		},
 		
 		player = {
 			binding = "client",
@@ -33,8 +42,15 @@ local config = {
 			item = {
 				model = "shared",
 				shared = "shared",
-			}
-		}
+			},
+		},
+		
+		prop = {
+			server = "server",
+			shared = "shared",
+		},
+		
+		team = {shared = "shared"},
 	},
 	
 	{hud = {block = "client"}},

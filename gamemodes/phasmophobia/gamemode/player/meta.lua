@@ -6,7 +6,7 @@ local player_trace_distance = 512
 function player_meta:GetAimEntity() --returns the aim entity and the trace's distance
 	local tick = engine.TickCount()
 	
-	if tick == self.AimTraceTicked then return self.AimEntityTraced, self.AimEntityTraceDistance end
+	if tick == self.AimTraceTicked then return self.AimEntityTraced, self.AimEntityTraceDistance, self.AimEntityHit end
 	
 	local eye_position = self:EyePos()
 	local player_trace = self.AimEntityTrace
@@ -32,11 +32,13 @@ function player_meta:GetAimEntity() --returns the aim entity and the trace's dis
 	
 	local distance = player_result.Fraction * player_trace_distance
 	local entity = player_result.Entity
+	local hit = player_result.HitPos
+	self.AimEntityHit = hit
 	self.AimEntityTraced = entity
 	self.AimEntityTraceDistance = distance
 	self.AimTraceTicked = tick
 	
-	return entity, distance
+	return entity, distance, hit
 end
 
 if SERVER then

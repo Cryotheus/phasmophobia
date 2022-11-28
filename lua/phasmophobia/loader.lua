@@ -17,15 +17,12 @@ local config = {
 	{
 		loader = "download",
 		global = "shared",
-		duplex = "shared",
-	},
+	}
 }
 
 local branding = "Phasmophobia"
 local color = Color(46, 55, 72)
---local color_error = Color(255, 96, 72)
 local color_generic = Color(240, 240, 240)
---local color_success = Color(72, 255, 96)
 
 do --do not touch
 	--locals

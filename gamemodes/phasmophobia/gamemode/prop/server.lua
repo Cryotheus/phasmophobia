@@ -1,16 +1,20 @@
+--locals
+local captured_users = {}
+
+--globals
+GM.PropCapturedUsers = captured_users
+
+--[[notes
+	PhasmophobiaFreezingOnSleep
+]]
+
 --gamemode functions
-function GM:AllowPlayerPickup(ply, entity)
-	if entity.IsPhasmophobiaItem then return false end
-	
-	return true
-end
+function GM:AllowPlayerPickup(ply, entity) return false end
 
-function GM:PropDropped(ply, entity)
-	
-end
 
---PhasmophobiaFreezingOnSleep
 function GM:PlayerUse(ply, entity)
+	if ply.PhasmophobiaUseCapture then return false end
+	
 	if entity.PhasmophobiaUnfreezeOnUse then
 		local physics = entity:GetPhysicsObject()
 		
@@ -23,24 +27,35 @@ function GM:PlayerUse(ply, entity)
 	return true
 end
 
-function GM:PropGetPickupInterrupt()
-	local interrupt = PhasmophobiaPickupInterrupt
+function GM:PropCaptureUse(ply, target)
+	--can't have multiple
+	print("capture?", ply, target)
 	
-	if IsValid(interrupt) then return interrupt end
+	if ply.PhasmophobiaUseCapture then return false end
 	
-	interrupt = ents.Create("phasmophobia_pickup_interrupt")
-	local ply = player.GetAll()[1]
-	local player_spawn = ents.FindByClass("info_player_start")[1]
+	print("start capture", ply, target)
 	
-	interrupt:SetAng(angle_zero)
-	interrupt:SetPos(player_spawn and player_spawn:GetPos() or ply and ply:GetPos() or vector_origin)
-	interrupt:Spawn()
+	ply.PhasmophobiaUseCapture = target
 	
-	return interrupt
+	table.insert(captured_users, ply)
+	
+	return true
 end
 
-function GM:PropPickupInterrupt(ply)
-	local interrupt = self:PropGetPickupInterrupt()
-	
-	interrupt:AddPlayer(ply)
+function GM:PropThink()
+	for index = #captured_users, 1, -1 do
+		local ply = captured_users[index]
+		local target = ply.PhasmophobiaUseCapture
+		
+		if ply:IsValid() and IsValid(target) and ply:KeyDown(IN_USE) then if target.UseCaptureThink then target:UseCaptureThink(ply) end
+		else
+			ply.PhasmophobiaUseCapture = nil
+			
+			if target.UseCaptureFinish then target:UseCaptureFinish(ply) end
+			
+			table.remove(captured_users)
+		end
+	end
 end
+
+function GM:Think() if self.PropThink then self:PropThink() end end
