@@ -19,9 +19,10 @@ ENT.SpawnFlagFields = {
 
 --locals
 local air_drag = 20
-local reach = 48
+local hinge_flexibility = 2
 local mass = 20
 local maximum_speed = 200
+local reach = 48
 local speed = 50
 
 --entity functions
@@ -125,46 +126,24 @@ function ENT:UseCaptureFinish(ply)
 end
 
 function ENT:UseCaptureThink(ply)
-	local angles = self:GetAngles()
-	local angles_yaw = angles.yaw
-	--local direction_yaw = Angle(0, angles_yaw, 0):Forward()
+	local angles_yaw = self:GetAngles().yaw
 	local drag_position = self:LocalToWorld(self.DragPosition)
 	local physics = self:GetPhysicsObject()
-	local projected = ply:EyePos() + ply:GetAimVector() * reach
-	--local projected_local = self:WorldToLocal(projected)
-	--projected_local.y = 0
-	
-	local difference = (projected - drag_position) * speed
-	local difference_planar_normal = (difference * Vector(1, 1, 0)):GetNormalized()
+	local difference = (ply:EyePos() + ply:GetAimVector() * reach - drag_position) * speed
+	--local projected = ply:EyePos() + ply:GetAimVector() * reach
 	
 	--clamp the speed
 	if difference:Length() > maximum_speed then difference:SetLength(maximum_speed) end
 	
-	--overbounding
-	if angles_yaw > self.HingeMaximum then
-		local excess = angles_yaw - self.HingeMaximum
-		
-		print(self, "passed maximum " .. excess, difference:Dot(self.HingeMaximumRight), difference:Length())
-	elseif angles_yaw < self.HingeMinimum then
-		local excess = self.HingeMinimum - angles_yaw
-		
-		print(self, "passed minimum " .. excess, difference:Dot(self.HingeMinimumRight), difference:Length())
-	end
+	--prevent the door from turning too far (the ballsocket is too flexible)
+	if angles_yaw > self.HingeMaximum then difference = difference * math.max(1 - (angles_yaw - self.HingeMaximum) / hinge_flexibility, 0)
+	elseif angles_yaw < self.HingeMinimum then difference = difference * math.max(1 - (self.HingeMinimum - angles_yaw) / hinge_flexibility, 0) end
 	
 	physics:SetVelocity(vector_origin)
 	physics:ApplyForceOffset(difference * physics:GetMass(), drag_position)
-	
-	--find the closest limit to the range, then apply it
-	--[[
-	if direction_yaw:AbsoluteDot(self.HingeMaximumForward) > direction_yaw:AbsoluteDot(self.HingeMinimumForward) then
-		print("using minimum", difference_planar_normal:Dot(self.HingeMinimumRight))
-	else
-		print("using maximum", difference_planar_normal:Dot(self.HingeMaximumRight))
-	end
-	--]]
 end
 
---[[
+--[[ eigth attempt
 	function ENT:UseCaptureThink(ply)
 		local debug_time = FrameTime() * 2.01
 		
@@ -209,7 +188,7 @@ end
 	end
 --]]
 
---[[
+--[[ sixth attempt
 	function ENT:UseCaptureThink(ply)
 		local angles = self:GetAngles()
 		local eye_angles = ply:EyeAngles()
@@ -229,7 +208,7 @@ end
 	end
 --]]
 
---[[
+--[[ fifth attempt
 	function ENT:DragTrace(ply)
 		local eye_direction = ply:GetAimVector()
 		local eye_position = ply:EyePos()
@@ -276,7 +255,7 @@ end
 	end
 --]]
 
---[[
+--[[ fourth attempt
 	local drag_scale = 50
 	drag_scale = Vector(drag_scale, drag_scale, 0)
 
@@ -298,7 +277,7 @@ end
 	end
 --]]
 
---[[
+--[[ third attempt
 	local slam = 5
 
 	function ENT:UseCaptureThink(ply)
@@ -332,7 +311,7 @@ end
 	end
 --]]
 
---[[
+--[[ second attempt
 	function ENT:UseCaptureThink(ply)
 		local drag_position = self:LocalToWorld(self.DragPosition)
 		local eye_position = ply:EyePos()
@@ -353,7 +332,7 @@ end
 	end
 --]]
 
---[[
+--[[ first attempt
 	function ENT:UseCaptureThink(ply)
 		--local aim_entity, distance, hit = ply:GetAimEntity()
 		local drag = self:LocalToWorld(self.DragPosition)
