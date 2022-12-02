@@ -19,38 +19,39 @@ local config = {
 		
 		global = {
 			color = "shared",
-			shared = "shared"
+			shared = true
 		},
 	},
 	
-	{shared = "shared"},
+	{shared = true},
 	
 	{
-		render = {client = "client"},
+		render = {client = true},
 		
 		entity = {
 			meta = {
-				server = "server",
-				shared = "shared",
+				server = true,
+				shared = true,
 			},
 		},
 		
 		player = {
 			binding = "client",
 			meta = "shared",
+			shared = true,
 			
 			item = {
 				model = "shared",
-				shared = "shared",
+				shared = true,
 			},
 		},
 		
 		prop = {
-			server = "server",
-			shared = "shared",
+			server = true,
+			shared = true,
 		},
 		
-		team = {shared = "shared"},
+		team = {shared = true},
 	},
 	
 	{hud = {block = "client"}},
@@ -104,9 +105,9 @@ do --do not touch
 			local trimmed_path = prefix .. name
 			
 			if istable(object) then build_list(include_list, trimmed_path .. "/", object)
-			elseif isstring(object) then
+			elseif object then
+				local words = isstring(object) and string.Split(object, " ") or {name}
 				local script = trimmed_path .. ".lua"
-				local words = string.Split(object, " ")
 				local word = table.remove(words, 1)
 				local load_method = load_methods[word]
 				

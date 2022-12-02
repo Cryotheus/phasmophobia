@@ -29,11 +29,7 @@ end
 
 function GM:PropCaptureUse(ply, target)
 	--can't have multiple
-	print("capture?", ply, target)
-	
 	if ply.PhasmophobiaUseCapture then return false end
-	
-	print("start capture", ply, target)
 	
 	ply.PhasmophobiaUseCapture = target
 	
