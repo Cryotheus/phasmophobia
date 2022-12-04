@@ -33,15 +33,23 @@ local config = {
 				server = true,
 				shared = true,
 			},
+			
+			lamp = "shared",
 		},
 		
 		player = {
 			binding = "client",
-			meta = "shared",
+			flashlight = "server",
 			shared = true,
 			
 			item = {
 				model = "shared",
+				shared = true,
+			},
+			
+			meta = {
+				client = true,
+				server = true,
 				shared = true,
 			},
 		},

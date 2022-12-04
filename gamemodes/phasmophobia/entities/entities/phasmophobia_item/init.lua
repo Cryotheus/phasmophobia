@@ -45,7 +45,7 @@ ENT.SpawnFlagFields = {
 }
 
 --entity functions
-function ENT:Initialize()
+function ENT:ItemInitialize()
 	local map_model = self.MapModel
 	local mass = self.Mass
 	self.Draw = self.DrawModel
@@ -77,3 +77,6 @@ function ENT:Initialize()
 end
 
 function ENT:Use(ply) hook.Run("PlayerItemPickup", ply, self) end
+
+--post
+ENT.Initialize = ENT.ItemInitialize

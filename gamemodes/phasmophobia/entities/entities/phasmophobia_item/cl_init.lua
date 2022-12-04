@@ -1,7 +1,7 @@
 include("shared.lua")
 
 --entity functions
-function ENT:DrawHeld(flags)
+function ENT:ItemDrawHeld(flags)
 	local ply = self:GetOwner()
 	
 	--if ply:IsValid() then self:UpdateHeldPosition(ply) end
@@ -16,9 +16,13 @@ function ENT:GetHoldOffsets(ply, position, angles)
 	return LocalToWorld(offset_position or vector_origin, offset_angle or angle_zero, position, angles)
 end
 
-function ENT:Initialize()
-	self.Draw = self.DrawModel
-	self.DrawDropped = self.DrawModel
+function ENT:ItemInitialize()
+	self.Draw = self.Draw or  self.DrawModel
+	self.DrawDropped = self.DrawDropped or self.DrawModel
 	self.NextThink = self.SetNextClientThink
 	self.Think = IsValid(self:GetItemSlot()) and self.ThinkHeld or self.ThinkDropped
 end
+
+--post
+ENT.DrawHeld = ENT.ItemDrawHeld
+ENT.Initialize = ENT.ItemInitialize

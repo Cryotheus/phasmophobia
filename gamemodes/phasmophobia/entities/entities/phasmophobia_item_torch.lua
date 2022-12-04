@@ -1,29 +1,20 @@
---swep fields
-ENT.Author = "Cryotheum"
-ENT.Base = "phasmophobia_item"
-ENT.Contact = "Discord: Cryotheum#4096"
-ENT.Instructions = "Primary toggles light."
-ENT.PrintName = "Phasmophobia Item"
-ENT.Purpose = "Light up the way."
-ENT.RenderGroup = RENDERGROUP_OPAQUE
-ENT.Spawnable = true
+AddCSLuaFile()
 
---swep functions
-function ENT:Draw()
-	
-end
+--entity fields
+ENT.Base = "phasmophobia_item_flashlight"
 
-function ENT:Initialize()
-	local lamp = ProjectedTexture()
-	self.Lamp = lamp
-	
-end
-
-function ENT:SetupDataTables()
-	self:NetworkVar("Bool", 0, "Lit")
-	self:NetworkVarNotify("Lit", function(name, old, new) if old ~= new then self:Toggled(new) end end)
-	
-	if SERVER then self:SetupNetworkVars() end
-end
-
-function ENT:SetupNetworkVars() self:SetLit(false) end
+--custom fields
+ENT.Brightness = 2.5
+ENT.Distance = 1132
+ENT.FlashlightStrength = 3
+ENT.FOV = 80
+ENT.Heavy = true
+ENT.HeldAnglesOffset = Angle(0, 0, 0)
+ENT.HeldPositionOffset = Vector(0, 0, 0)
+ENT.HoldType = "revolver"
+ENT.LocalAngles = Angle(0, 0, 0)
+ENT.LocalPosition = Vector(-2, 0, 0)
+ENT.Texture = "effects/flashlight/hard"
+ENT.ViewModelAnglesOffset = Angle(0, 0, 0)
+ENT.ViewModelPositionOffset = Vector(20, 0, -10)
+ENT.WorldModel = "models/lamps/torch.mdl"

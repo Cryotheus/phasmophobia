@@ -15,14 +15,14 @@ SWEP.SlotPos = 0
 
 SWEP.Primary = {
 	Ammo = "none",
-	Automatic = true,
+	Automatic = false,
 	ClipSize = -1,
 	DefaultClip = -1,
 }
 
 SWEP.Secondary = {
 	Ammo = "none",
-	Automatic = true,
+	Automatic = false,
 	ClipSize = -1,
 	DefaultClip = -1,
 }
@@ -49,7 +49,11 @@ function SWEP:Holster()
 	local item = self:GetItem()
 	self.Deployed = false
 	
-	if IsValid(item) then item:SetActivelyHeld(false) end
+	if IsValid(item) then
+		item:SetActivelyHeld(false)
+		
+		if item.Heavy then self:Throw(true) end
+	end
 	
 	return true
 end
@@ -67,39 +71,35 @@ function SWEP:ItemEquipped(item)
 	self:SetHoldType(item.HoldType or "pistol")
 end
 
+function SWEP:OnReloaded() if self.ClassName == "phasmophobia_item_slot" then GAMEMODE:PlayerRegisterItemSlots(4) end end
+
 function SWEP:Pickup(item)
+	if self.Heavy and not self.Deployed then self:GetOwner():SetActiveWeapon(self) end
+	
 	self:SetItem(item)
 	item:SetActivelyHeld(self.Deployed)
 end
 
 function SWEP:PrimaryAttack()
-	--unsafe to do prediction with entity interactions
-	if not IsFirstTimePredicted() then return end
+	if not IsFirstTimePredicted() then return end --unsafe to do prediction with entity interactions
 	
 	local item = self:GetItem()
+	local fire_delay = item.PrimaryDelay
 	
 	if IsValid(item) then item:PrimaryUse(self:GetOwner(), self) end
+	if fire_delay then self:SetNextPrimaryFire(CurTime() + fire_delay) end
 end
 
-function SWEP:Reload()
-	--unsafe to do prediction with entity interactions
-	if not IsFirstTimePredicted() then return end
-	
-	local item = self:GetItem()
-	
-	if IsValid(item) then
-		item:Throw(self:GetOwner(), self)
-		self:SetItem(NULL)
-	end
-end
+function SWEP:Reload() self:Throw() end
 
 function SWEP:SecondaryAttack()
-	--unsafe to do prediction with entity interactions
-	if not IsFirstTimePredicted() then return end
+	if not IsFirstTimePredicted() then return end --unsafe to do prediction with entity interactions
 	
 	local item = self:GetItem()
+	local fire_delay = item.SecondaryDelay
 	
 	if IsValid(item) then item:SecondaryUse(self:GetOwner(), self) end
+	if fire_delay then self:SetNextPrimaryFire(CurTime() + fire_delay) end
 end
 
 function SWEP:SetupDataTables()
@@ -110,4 +110,17 @@ function SWEP:SetupDataTables()
 		if IsValid(old) then self:ItemDropped(old) end
 		if new:IsValid() then self:ItemEquipped(new) end
 	end)
+end
+
+function SWEP:Throw(no_force)
+	local item = self:GetItem()
+	
+	if IsValid(item) then
+		--unsafe to do prediction with entity interactions
+		if IsFirstTimePredicted() then item:Throw(self:GetOwner(), self, no_force) end
+		
+		self:SetItem(NULL)
+		
+		print("Thrown", self, item)
+	end
 end

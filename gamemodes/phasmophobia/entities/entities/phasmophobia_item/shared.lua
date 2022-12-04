@@ -29,6 +29,7 @@ function ENT:Dropped(ply, item_slot)
 	self.Draw = self.DrawDropped
 	
 	self:UpdateDroppedCollisions(item_slot)
+	self:OnDropped(ply, item_slot)
 end
 
 function ENT:DumpNetVars() --for debug
@@ -43,6 +44,7 @@ function ENT:Equipped(ply, item_slot)
 	self.Draw = self.DrawHeld
 	
 	self:UpdateHeldCollisions(item_slot)
+	self:OnEquipped(ply, item_slot)
 end
 
 function ENT:GetThrowAngles(ply, item_slot)
@@ -61,11 +63,8 @@ function ENT:GetViewModelOffsets(ply, position, angles)
 end
 
 function ENT:HeldStatusUpdated(held) end
-function ENT:ItemSlotChanged(item_slot) if IsValid(item_slot) then self:UpdateHeldCollisions(item_slot) end end
-function ENT:PrimaryUse(ply, item_slot) end
-function ENT:SecondaryUse(ply, item_slot) end
 
-function ENT:SetupDataTables()
+function ENT:ItemSetupDataTables()
 	--we use the last slots available to make deriving easier
 	self:NetworkVar("Bool", 31, "ActivelyHeld")
 	self:NetworkVar("Entity", 31, "ItemSlot")
@@ -86,6 +85,12 @@ function ENT:SetupDataTables()
 		self:ItemSlotChanged(new)
 	end)
 end
+
+function ENT:ItemSlotChanged(item_slot) if IsValid(item_slot) then self:UpdateHeldCollisions(item_slot) end end
+function ENT:OnDropped(ply, item_slot) end
+function ENT:OnEquipped(ply, item_slot) end
+function ENT:PrimaryUse(ply, item_slot) end
+function ENT:SecondaryUse(ply, item_slot) end
 
 function ENT:Store(ply, item_slot) --when stored on rack
 	local truck = GAMEMODE.Truck
@@ -134,7 +139,7 @@ else
 	end
 end
 
-function ENT:Throw(ply, item_slot)
+function ENT:Throw(ply, item_slot, no_force)
 	self:UpdateDroppedCollisions(item_slot)
 	self:SetAngles(self:GetThrowAngles(ply, item_slot))
 	self:SetPos(ply:EyePos())
@@ -143,9 +148,11 @@ function ENT:Throw(ply, item_slot)
 		local physics = self:GetPhysicsObject()
 		
 		physics:Wake()
-		physics:SetVelocity(ply:GetAimVector() * 400)
-		
 		self:FreezeOnSleep()
+		
+		if no_force then return end
+		
+		physics:SetVelocity(ply:GetAimVector() * 400)
 	end
 end
 
@@ -179,3 +186,6 @@ function ENT:UpdateHeldPosition(ply)
 	self:SetAngles(angles)
 	self:SetPos(position)
 end
+
+--post
+ENT.SetupDataTables = ENT.ItemSetupDataTables

@@ -19,7 +19,6 @@ function GM:PlayerLoadout(ply)
 end
 
 function GM:PlayerItemPickup(ply, item)
-	
 	--prevent hackers from duplicating items
 	if IsValid(item:GetItemSlot()) then return false end
 	

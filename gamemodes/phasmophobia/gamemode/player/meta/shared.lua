@@ -1,6 +1,6 @@
 --locals
 local player_meta = FindMetaTable("Player")
-local player_trace_distance = 512
+local player_trace_distance = 1024
 
 --player meta functions
 function player_meta:GetAimEntity() --returns the aim entity and the trace's distance
@@ -41,30 +41,4 @@ function player_meta:GetAimEntity() --returns the aim entity and the trace's dis
 	self.AimTraceTicked = tick
 	
 	return entity, distance, hit, normal
-end
-
-if SERVER then
-	function player_meta:GetItemSlots()
-		local item_slots = self.ItemSlots
-		
-		if item_slots then return item_slots end
-		
-		hook.Run("PlayerLoadout", self)
-		
-		--then try again
-		return self.ItemSlots
-	end
-else
-	function player_meta:GetItemSlots()
-		local item_slots = self.ItemSlots
-		
-		if not item_slots then
-			item_slots = {}
-			self.ItemSlots = item_slots
-		else table.Empty(item_slots) end
-		
-		for index, weapon in ipairs(self:GetWeapons()) do if weapon.IsPhasmophobiaItemSlot then item_slots[weapon:GetSlot() + 1] = weapon end end
-		
-		return item_slots
-	end
 end
