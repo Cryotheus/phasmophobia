@@ -108,35 +108,18 @@ function ENT:ThinkDropped()
 	if self.ThinkPost then return self:ThinkPost() end
 end
 
-if game.SinglePlayer() then
-	function ENT:ThinkHeld()
-		if self.ThinkPre then self:ThinkPre() end
-		
-		local ply = self:GetOwner()
-		
-		if IsValid(ply) then self:UpdateHeldPosition(ply) end
-		if self.ThinkPost then self:ThinkPost() end
-		
-		self:NextThink(0)
-		
-		if CLIENT then self:SetNextClientThink(0) end
-		
-		return true
-	end
-else
-	function ENT:ThinkHeld()
-		if self.ThinkPre then self:ThinkPre() end
-		
-		local ply = self:GetOwner()
-		
-		if IsValid(ply) then self:UpdateHeldPosition(ply) end
-		if self.ThinkPost then self:ThinkPost() end
-		
-		--this is an alias of SetNextClientThink on CLIENT
-		self:NextThink(CurTime() + 0.1)
-		
-		return true
-	end
+function ENT:ThinkHeld()
+	if self.ThinkPre then self:ThinkPre() end
+	
+	local ply = self:GetOwner()
+	
+	if IsValid(ply) then self:UpdateHeldPosition(ply) end
+	if self.ThinkPost then self:ThinkPost() end
+	
+	--this is an alias of SetNextClientThink on CLIENT
+	self:NextThink(CurTime() + 0.1)
+	
+	return true
 end
 
 function ENT:Throw(ply, item_slot, no_force)

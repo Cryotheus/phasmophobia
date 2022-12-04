@@ -120,7 +120,5 @@ function SWEP:Throw(no_force)
 		if IsFirstTimePredicted() then item:Throw(self:GetOwner(), self, no_force) end
 		
 		self:SetItem(NULL)
-		
-		print("Thrown", self, item)
 	end
 end

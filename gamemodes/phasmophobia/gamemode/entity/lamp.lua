@@ -1,5 +1,6 @@
 --locals
-local default_texture = "effects/flashlight001"
+--local default_texture = "effects/flashlight001"
+local default_texture = "effects/flashlight/hard"
 local entity_meta = FindMetaTable("Entity")
 
 --local tables
@@ -20,6 +21,12 @@ function LAMP:GetBrightness() return self.Brightness end
 function LAMP:GetColor() return self.Color end
 function LAMP:GetTexture() return self.Texture end
 
+function LAMP:InputTexture(texture)
+	self.Texture = texture
+	
+	self:Input("SpotlightTexture", NULL, NULL, texture)
+end
+
 function LAMP:SetBrightness(brightness)
 	self.Brightness = brightness
 	
@@ -33,19 +40,14 @@ function LAMP:SetColor(color)
 	self:SetKeyValue("lightcolor", string.format("%i %i %i 255", color.r * brightness, color.g * brightness, color.b * brightness))
 end
 
-function LAMP:SetTexture(texture)
-	self.Texture = texture
-	
-	if not self.Spawned then return end
-	
-	lamp:Input("SpotlightTexture", NULL, NULL, texture)
-end
+function LAMP:SetTexture(texture) self.Texture = texture end
 
 function LAMP:Spawn()
 	self.Spawned = true
+	self.SetTexture = self.InputTexture
 	
 	entity_meta.Spawn(self)
-	self:SetTexture(self.Texture or default_texture)
+	self:InputTexture(self.Texture or default_texture)
 end
 
 --gamemode functions
