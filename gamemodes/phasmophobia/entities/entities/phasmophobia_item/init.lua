@@ -76,6 +76,13 @@ function ENT:ItemInitialize()
 	self:FreezeOnSleep()
 end
 
+function ENT:UpdateHeldPosition(ply)
+	--local position, angles = self:GetViewModelOffsets(ply, ply:EyePos(), ply:EyeAngles())
+	
+	self:SetAngles(ply:EyeAngles())
+	self:SetPos(ply:WorldSpaceCenter())
+end
+
 function ENT:Use(ply) hook.Run("PlayerItemPickup", ply, self) end
 
 --post
