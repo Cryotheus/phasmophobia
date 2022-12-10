@@ -37,6 +37,18 @@ If you want to let your player base speak to the ghost over voice chat, follow t
 Your server should now have voice features, and clients do not need to install any binary modules.  
 If it does not work, make sure your network allows loopback networking.
 
+# For Map Creators
+The `phasmophobia.fgd` provides the in-editor documentation needed to make a map. All entities related to this gamemode are prefixed by `phasmophobia` (including brush entities).
+
+## FGD Installation
+1. Download the `phasmophobia.fgd` or clone this repository from the command line using `git clone https://github.com/Cryotheus/phasmophobia.git`.
+2. Launch Hammer.
+3. Navigate to *Tools* (in the header) > *Options...* (bottom of list) > *Game Configurations* (header of menu, default tab)
+4. In the *Game Data files:* section, click the *Add* button.
+5. Navigate the file browser to the `phasmophobia.fgd` file (in the root of the repository / stand alone).
+6. Press *OK* at the bottom of the menu.
+7. Restart Hammer.
+
 # For Developers
 The source code uses descriptive variable names and comments where necessary.
 Details on the purpose and usage of entities are provided in the default `ENT`/`SWEP` fields.
