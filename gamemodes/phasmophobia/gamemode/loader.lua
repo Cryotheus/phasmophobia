@@ -8,6 +8,7 @@
 	loading modifiers
 		dedicated: must be hosted on a dedicated server
 		developer: developer convar must be set
+		hosted: must be a listen or dedicated server
 		listen: must be a listen server
 		simple: must be a listen or single player server
 		single: must be a single player server
@@ -26,8 +27,6 @@ local config = {
 	{shared = true},
 	
 	{
-		render = {client = true},
-		
 		entity = {
 			meta = {
 				server = true,
@@ -35,6 +34,11 @@ local config = {
 			},
 			
 			lamp = "shared",
+		},
+		
+		hud = {
+			client = true,
+			item = "client",
 		},
 		
 		player = {
@@ -59,6 +63,7 @@ local config = {
 			shared = true,
 		},
 		
+		render = {client = true},
 		team = {shared = true},
 	},
 	
@@ -92,6 +97,7 @@ do --do not touch
 	local word_methods = {
 		dedicated = not game.IsDedicated(),
 		developer = block_developer,
+		hosted = not game.IsDedicated() and game.SinglePlayer(),
 		listen = game.IsDedicated() or game.SinglePlayer(),
 		simple = game.IsDedicated(),
 		single = not game.SinglePlayer(),

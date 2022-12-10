@@ -40,11 +40,6 @@ function SWEP:Deploy()
 	return true
 end
 
-function SWEP:DumpNetVars() --for debug
-	MsgC(color_realm, "Network Variable dump for " .. tostring(self), "\n")
-	MsgC(color_realm, "NV::Item\t" .. tostring(self:GetItem()), "\n")
-end
-
 function SWEP:Holster()
 	local item = self:GetItem()
 	self.Deployed = false
@@ -74,7 +69,8 @@ end
 function SWEP:OnReloaded() if self.ClassName == "phasmophobia_item_slot" then GAMEMODE:PlayerRegisterItemSlots(4) end end
 
 function SWEP:Pickup(item)
-	if self.Heavy and not self.Deployed then self:GetOwner():SetActiveWeapon(self) end
+	--prevent heavy items from being stored in inactive slots
+	if item.Heavy and not self.Deployed then return end
 	
 	self:SetItem(item)
 	item:SetActivelyHeld(self.Deployed)
