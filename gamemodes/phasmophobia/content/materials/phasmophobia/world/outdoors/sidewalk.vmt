@@ -1,6 +1,6 @@
 "LightmappedGeneric"
 {
-	"$basetexture" 	"phasmophobia/world/outdoors/sidewalk"
-	"$bumpmap"	"phasmophobia/world/outdoors/sidewalk_normal"
-	"$surfaceprop" 	"concrete"
+	"$basetexture" "phasmophobia/world/outdoors/sidewalk"
+	"$bumpmap" "phasmophobia/world/outdoors/sidewalk_normal"
+	"$surfaceprop" "Concrete"
 }
