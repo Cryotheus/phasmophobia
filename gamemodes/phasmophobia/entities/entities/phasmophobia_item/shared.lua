@@ -18,10 +18,6 @@ ENT.IsPhasmophobiaItem = true
 		ThinkDropped
 		ThinkHeld
 		ThinkRacked
-
-	ThinkPre is called before the contents of Think*
-	ThinkPost is called after the contents Think*
-	ThinkRacked does not call ThinkPre or ThinkPost (to save on performance)
 ]]
 
 --entity functions
@@ -30,14 +26,6 @@ function ENT:Dropped(ply, item_slot)
 	
 	self:UpdateDroppedCollisions(item_slot)
 	self:OnDropped(ply, item_slot)
-end
-
-function ENT:DumpNetVars() --for debug
-	MsgC(color_realm, "Network Variable dump for " .. tostring(self), "\n")
-	MsgC(color_realm, "NV::ActivelyHeld\t" .. tostring(self:GetActivelyHeld()), "\n")
-	MsgC(color_realm, "NV::ItemSlot\t" .. tostring(self:GetItemSlot()), "\n")
-	MsgC(color_realm, "NV::PrimaryUses\t" .. tostring(self:GetPrimaryUses()), "\n")
-	MsgC(color_realm, "NV::SecondaryUses\t" .. tostring(self:GetSecondaryUses()), "\n")
 end
 
 function ENT:Equipped(ply, item_slot)
@@ -86,6 +74,17 @@ function ENT:ItemSetupDataTables()
 	end)
 end
 
+function ENT:ItemThinkHeld()
+	local ply = self:GetOwner()
+	
+	if IsValid(ply) then self:UpdateHeldPosition(ply) end
+	
+	--this is an alias of SetNextClientThink on CLIENT
+	self:NextThink(CurTime() + 0.1)
+	
+	return true
+end
+
 function ENT:ItemSlotChanged(item_slot) if IsValid(item_slot) then self:UpdateHeldCollisions(item_slot) end end
 function ENT:OnDropped(ply, item_slot) end
 function ENT:OnEquipped(ply, item_slot) end
@@ -103,24 +102,7 @@ function ENT:Store(ply, item_slot) --when stored on rack
 	self.Think = self.ThinkRacked
 end
 
-function ENT:ThinkDropped()
-	if self.ThinkPre then self:ThinkPre() end
-	if self.ThinkPost then return self:ThinkPost() end
-end
-
-function ENT:ThinkHeld()
-	if self.ThinkPre then self:ThinkPre() end
-	
-	local ply = self:GetOwner()
-	
-	if IsValid(ply) then self:UpdateHeldPosition(ply) end
-	if self.ThinkPost then self:ThinkPost() end
-	
-	--this is an alias of SetNextClientThink on CLIENT
-	self:NextThink(CurTime() + 0.1)
-	
-	return true
-end
+function ENT:ThinkDropped() end
 
 function ENT:Throw(ply, item_slot, no_force)
 	self:UpdateDroppedCollisions(item_slot)
@@ -163,12 +145,6 @@ function ENT:UpdateHeldCollisions(item_slot)
 	end
 end
 
-function ENT:UpdateHeldPosition(ply)
-	local position, angles = self:GetViewModelOffsets(ply, ply:EyePos(), ply:EyeAngles())
-	
-	self:SetAngles(angles)
-	self:SetPos(position)
-end
-
 --post
 ENT.SetupDataTables = ENT.ItemSetupDataTables
+ENT.ThinkHeld = ENT.ItemThinkHeld
