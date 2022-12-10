@@ -1,0 +1,6 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "phasmophobia/world/drywall/baseboard_blue"
+	"$bumpmap" "phasmophobia/world/drywall/baseboard_normal"
+	"$surfaceprop" "Porcelain"
+}
