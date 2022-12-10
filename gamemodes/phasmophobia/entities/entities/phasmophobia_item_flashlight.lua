@@ -13,7 +13,7 @@ ENT.Spawnable = true
 
 --custom fields
 ENT.HeldAnglesOffset = Angle(0, 0, 0)
-ENT.HeldPositionOffset = Vector(0, 0, 0)
+ENT.HeldPositionOffset = Vector(6, 0, 0)
 ENT.HoldType = "pistol"
 ENT.PrimaryDelay = 0.2
 ENT.ViewModelAnglesOffset = Angle(0, -12, 0)
@@ -72,14 +72,6 @@ end
 function ENT:OnRemove() self:RemoveLamp() end
 function ENT:PrimaryUse(ply, item_slot) self:Toggle() end
 function ENT:RemoveLamp() if IsValid(self.Lamp) then self.Lamp:Remove() end end
-
-function ENT:ThinkPre()
-	if CLIENT then return end
-	
-	--local lamp = self.Lamp
-	
-	--if IsValid(lamp) then lamp:SetTexture(self.Texture) end
-end
 
 function ENT:SetupDataTables()
 	self:ItemSetupDataTables() --call the base class' method first
