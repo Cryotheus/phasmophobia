@@ -1,11 +1,11 @@
 {
 	"author": "Cryotheum",
 	"title": "Phasmophobia",
-	"type": "tool",
+	"type": "gamemode",
 	
 	"tags": [
-		"roleplay",
-		"scenic"
+		"realism",
+		"roleplay"
 	],
 	
 	"ignore": [
@@ -18,12 +18,14 @@
 		"*.txt",
 		"*.yml",
 		"*.zip",
-		"LICENSE",
-		"README.md",
-		"wiki/*",
+		"gamemodes/phasmophobia/backgrounds/*",
 		"gamemodes/phasmophobia/content/maps/*",
 		"gamemodes/phasmophobia/content/materials/*",
 		"gamemodes/phasmophobia/content/models/*",
-		"gamemodes/phasmophobia/content/sound/*"
+		"gamemodes/phasmophobia/content/particles/*",
+		"gamemodes/phasmophobia/content/sound/*",
+		"LICENSE",
+		"README.md",
+		"wiki/*"
 	]
 }
