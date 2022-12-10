@@ -7,7 +7,3 @@ function entity_meta:DumpNetVars()
 	
 	for key, value in pairs(self:GetNetworkVars()) do MsgC(color_realm_pale, "\tNV::" .. key .. " =\t" .. tostring(value) .. "\n") end
 end
-
-function GM:OnEntityCreated(entity)
-	if entity:IsValid() and entity:GetClass() == "player" then self:PlayerSetHull(entity) end
-end
