@@ -12,7 +12,7 @@ If I ever finish this Gamemode, I will post it on the workshop so you won't have
 1. Download this repository [here](https://github.com/Cryotheus/phasmophobia/archive/refs/heads/main.zip).
 2. Extract the ZIP archive.
 3. Place the extracted folder in your `GarrysMod/garrysmod/addons` directory
-4. Install [Pyrition 2](https://github.com/Cryotheus/pyrition_2)
+4. Install [Pyrition 2](https://github.com/Cryotheus/pyrition_2) (or an available alternative)
 
 The newly placed `phasmophobia` folder should be next to folders named `base`, `sandbox`, and `terrortown`.
 
